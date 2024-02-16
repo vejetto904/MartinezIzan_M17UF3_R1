@@ -37,6 +37,15 @@ namespace GameInputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""fc67db9a-0bd3-4159-a6ef-535818592ce5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -94,6 +103,17 @@ namespace GameInputs
                     ""action"": ""Movimiento"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5eddff1c-2e83-45e7-be11-4f252b869699"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -103,6 +123,7 @@ namespace GameInputs
             // Controles
             m_Controles = asset.FindActionMap("Controles", throwIfNotFound: true);
             m_Controles_Movimiento = m_Controles.FindAction("Movimiento", throwIfNotFound: true);
+            m_Controles_Run = m_Controles.FindAction("Run", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -165,11 +186,13 @@ namespace GameInputs
         private readonly InputActionMap m_Controles;
         private List<IControlesActions> m_ControlesActionsCallbackInterfaces = new List<IControlesActions>();
         private readonly InputAction m_Controles_Movimiento;
+        private readonly InputAction m_Controles_Run;
         public struct ControlesActions
         {
             private @Inputs m_Wrapper;
             public ControlesActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movimiento => m_Wrapper.m_Controles_Movimiento;
+            public InputAction @Run => m_Wrapper.m_Controles_Run;
             public InputActionMap Get() { return m_Wrapper.m_Controles; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -182,6 +205,9 @@ namespace GameInputs
                 @Movimiento.started += instance.OnMovimiento;
                 @Movimiento.performed += instance.OnMovimiento;
                 @Movimiento.canceled += instance.OnMovimiento;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
             }
 
             private void UnregisterCallbacks(IControlesActions instance)
@@ -189,6 +215,9 @@ namespace GameInputs
                 @Movimiento.started -= instance.OnMovimiento;
                 @Movimiento.performed -= instance.OnMovimiento;
                 @Movimiento.canceled -= instance.OnMovimiento;
+                @Run.started -= instance.OnRun;
+                @Run.performed -= instance.OnRun;
+                @Run.canceled -= instance.OnRun;
             }
 
             public void RemoveCallbacks(IControlesActions instance)
@@ -209,6 +238,7 @@ namespace GameInputs
         public interface IControlesActions
         {
             void OnMovimiento(InputAction.CallbackContext context);
+            void OnRun(InputAction.CallbackContext context);
         }
     }
 }
