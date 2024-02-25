@@ -46,6 +46,24 @@ namespace GameInputs
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""b392897f-f2ca-4402-b86f-0bdee12999f6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef6a58b9-b184-4c3c-832e-4d6c8ffdd577"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,10 +126,32 @@ namespace GameInputs
                     ""name"": """",
                     ""id"": ""5eddff1c-2e83-45e7-be11-4f252b869699"",
                     ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(behavior=2)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03ba3f51-23e5-4bf7-943c-98de840b532b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": ""Press(behavior=2)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7969469a-ef58-4e0a-b200-b7edb67ffefe"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -124,6 +164,8 @@ namespace GameInputs
             m_Controles = asset.FindActionMap("Controles", throwIfNotFound: true);
             m_Controles_Movimiento = m_Controles.FindAction("Movimiento", throwIfNotFound: true);
             m_Controles_Run = m_Controles.FindAction("Run", throwIfNotFound: true);
+            m_Controles_Jump = m_Controles.FindAction("Jump", throwIfNotFound: true);
+            m_Controles_Crouch = m_Controles.FindAction("Crouch", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -187,12 +229,16 @@ namespace GameInputs
         private List<IControlesActions> m_ControlesActionsCallbackInterfaces = new List<IControlesActions>();
         private readonly InputAction m_Controles_Movimiento;
         private readonly InputAction m_Controles_Run;
+        private readonly InputAction m_Controles_Jump;
+        private readonly InputAction m_Controles_Crouch;
         public struct ControlesActions
         {
             private @Inputs m_Wrapper;
             public ControlesActions(@Inputs wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movimiento => m_Wrapper.m_Controles_Movimiento;
             public InputAction @Run => m_Wrapper.m_Controles_Run;
+            public InputAction @Jump => m_Wrapper.m_Controles_Jump;
+            public InputAction @Crouch => m_Wrapper.m_Controles_Crouch;
             public InputActionMap Get() { return m_Wrapper.m_Controles; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -208,6 +254,12 @@ namespace GameInputs
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
 
             private void UnregisterCallbacks(IControlesActions instance)
@@ -218,6 +270,12 @@ namespace GameInputs
                 @Run.started -= instance.OnRun;
                 @Run.performed -= instance.OnRun;
                 @Run.canceled -= instance.OnRun;
+                @Jump.started -= instance.OnJump;
+                @Jump.performed -= instance.OnJump;
+                @Jump.canceled -= instance.OnJump;
+                @Crouch.started -= instance.OnCrouch;
+                @Crouch.performed -= instance.OnCrouch;
+                @Crouch.canceled -= instance.OnCrouch;
             }
 
             public void RemoveCallbacks(IControlesActions instance)
@@ -239,6 +297,8 @@ namespace GameInputs
         {
             void OnMovimiento(InputAction.CallbackContext context);
             void OnRun(InputAction.CallbackContext context);
+            void OnJump(InputAction.CallbackContext context);
+            void OnCrouch(InputAction.CallbackContext context);
         }
     }
 }

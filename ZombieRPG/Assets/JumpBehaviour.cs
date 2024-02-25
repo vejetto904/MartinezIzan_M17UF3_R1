@@ -2,24 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : StateMachineBehaviour
+public class JumpBehaviour : StateMachineBehaviour
 {
     Animator _animator;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _animator = animator;
-        InputController.Caminar += Caminar;
-        InputController.Crouch += Crouch;
+        InputController.Jump += Jump;
+
     }
-    public void Caminar(bool caminar)
+    public void Jump()
     {
-        _animator.SetBool("isWalk", true);
+        _animator.SetBool("RuningJump", false);
     }
-    public void Crouch()
-    {
-        _animator.SetBool("isCrouch", true);
-    }
+
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
@@ -29,8 +26,7 @@ public class IdleBehaviour : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        InputController.Caminar -= Caminar;
-        InputController.Crouch -= Crouch;
+        InputController.Jump -= Jump;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : StateMachineBehaviour
+public class CrouchWalkBehaviour : StateMachineBehaviour
 {
     Animator _animator;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -12,14 +12,7 @@ public class IdleBehaviour : StateMachineBehaviour
         InputController.Caminar += Caminar;
         InputController.Crouch += Crouch;
     }
-    public void Caminar(bool caminar)
-    {
-        _animator.SetBool("isWalk", true);
-    }
-    public void Crouch()
-    {
-        _animator.SetBool("isCrouch", true);
-    }
+
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
@@ -31,6 +24,21 @@ public class IdleBehaviour : StateMachineBehaviour
     {
         InputController.Caminar -= Caminar;
         InputController.Crouch -= Crouch;
+    }
+    public void Caminar(bool camiar)
+    {
+        if (!camiar)
+        {
+            _animator.SetBool("isCrouchMove", false);
+            _animator.SetBool("isCrouch", true);
+            _animator.SetBool("isWalk", false);
+        }
+    }
+    public void Crouch()
+    {
+        _animator.SetBool("isCrouchMove", false);
+        _animator.SetBool("isCrouch", false);
+        _animator.SetBool("isWalk", true);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

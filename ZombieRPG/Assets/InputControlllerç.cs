@@ -8,8 +8,10 @@ public class InputController : MonoBehaviour
 {
     public static InputController Instance;
     protected Inputs _inputs;
-    public static Action Caminar = delegate { };
+    public static Action<bool> Caminar = delegate { };
     public static Action Correr = delegate { };
+    public static Action Jump = delegate { };
+    public static Action Crouch = delegate { };
 
     private void Awake()
     {
@@ -17,11 +19,19 @@ public class InputController : MonoBehaviour
 
         _inputs.Controles.Movimiento.performed += ctx =>
         {
-            Caminar.Invoke();
+            Caminar.Invoke(ctx.ReadValue<Vector2>().magnitude > 0);
         };
         _inputs.Controles.Run.performed += ctx =>
         {
             Correr.Invoke();
+        };
+        _inputs.Controles.Jump.performed += ctx =>
+        {
+            Jump.Invoke();
+        };
+        _inputs.Controles.Crouch.performed += ctx =>
+        {
+            Crouch.Invoke();
         };
 
     }

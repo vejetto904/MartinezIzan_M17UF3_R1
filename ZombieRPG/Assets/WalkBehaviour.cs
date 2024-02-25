@@ -11,14 +11,24 @@ public class WalkBehaviour : StateMachineBehaviour
         _animator = animator;
         InputController.Caminar += Caminar;
         InputController.Correr += Correr;
+        InputController.Crouch += CaminarCrouch;
+        InputController.Jump += Jump;
     }
-    public void Caminar()
+    public void Caminar(bool caminar)
     {
-        _animator.SetBool("isWalk", false);
+        if(!caminar)_animator.SetBool("isWalk", false);
     }
     public void Correr()
     {
         _animator.SetBool("isRun", true);
+    }
+    public void CaminarCrouch()
+    {
+        _animator.SetBool("isCrouchMove", true);
+    }
+    public void Jump()
+    {
+        _animator.SetBool("RuningJump", true);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -32,6 +42,8 @@ public class WalkBehaviour : StateMachineBehaviour
     {
         InputController.Caminar -= Caminar;
         InputController.Correr -= Correr;
+        InputController.Crouch -= CaminarCrouch;
+        InputController.Jump -= Jump;
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
