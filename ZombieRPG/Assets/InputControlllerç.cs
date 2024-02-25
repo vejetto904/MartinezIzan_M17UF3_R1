@@ -13,13 +13,16 @@ public class InputController : MonoBehaviour
     public static Action Jump = delegate { };
     public static Action Crouch = delegate { };
 
+    public Vector2 movimientoActual;
+
     private void Awake()
     {
         _inputs = new Inputs();
 
         _inputs.Controles.Movimiento.performed += ctx =>
         {
-            Caminar.Invoke(ctx.ReadValue<Vector2>().magnitude > 0);
+            movimientoActual = ctx.ReadValue<Vector2>();
+            Caminar.Invoke(movimientoActual.magnitude > 0);
         };
         _inputs.Controles.Run.performed += ctx =>
         {
@@ -33,8 +36,8 @@ public class InputController : MonoBehaviour
         {
             Crouch.Invoke();
         };
-
     }
+
     private void OnEnable()
     {
         _inputs.Controles.Enable();
@@ -43,17 +46,5 @@ public class InputController : MonoBehaviour
     private void OnDisable()
     {
         _inputs.Controles.Disable();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

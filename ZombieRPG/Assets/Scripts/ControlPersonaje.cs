@@ -4,22 +4,74 @@ using UnityEngine;
 
 public class ThirdPersonController : MonoBehaviour
 {
-    public float speed = 5.0f;          // Velocidad de movimiento del jugador
-    public float rotationSpeed = 100.0f; // Velocidad de rotación del jugador
+    public float speed = 2.0f;          // Velocidad de movimiento del jugador
+    public float rotationSpeed = 50.0f; // Velocidad de rotación del jugador
+    public float jumpForce = 5.0f;      // Fuerza del salto
+    public float runMultiplier = 2.0f;  // Factor de multiplicación para la velocidad al correr
 
-    void Update()
+    private bool isWalking = false; // Variable para controlar si el personaje está caminando
+    private bool isRunning = false; // Variable para controlar si el personaje está corriendo
+
+    private void Awake()
     {
-        // Obtener la entrada del teclado
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        InputController.Instance ??= FindObjectOfType<InputController>();
+        InputController.Caminar += StartWalking;
+        InputController.Correr += StartRunning;
+        InputController.Jump += Jump;
+    }
 
-        // Calcular el vector de movimiento
-        Vector3 movement = new Vector3(horizontalInput, 0.0f, verticalInput) * speed * Time.deltaTime;
+    private void OnDestroy()
+    {
+        InputController.Caminar -= StartWalking;
+        InputController.Correr -= StartRunning;
+        InputController.Jump -= Jump;
+    }
 
-        // Mover al jugador en la dirección del vector de movimiento
-        transform.Translate(movement);
+    private void StartWalking(bool walking)
+    {
+        isWalking = walking;
+    }
 
-        // Rotar al jugador basado en la entrada de rotación
-        transform.Rotate(Vector3.up, horizontalInput * rotationSpeed * Time.deltaTime);
+    private void StartRunning()
+    {
+        isRunning = true;
+    }
+
+    private void StopRunning()
+    {
+        isRunning = false;
+    }
+
+    private void Jump()
+    {
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private void Update()
+    {
+        if (isWalking || isRunning)
+        {
+            Vector2 movementInput = InputController.Instance.movimientoActual;
+
+            float horizontalInput = movementInput.x;
+            float verticalInput = movementInput.y;
+
+            // Calcular la velocidad multiplicando por el factor de correr si el personaje está corriendo
+            float currentSpeed = speed * (isRunning ? runMultiplier : 1.0f);
+
+            // Calcular el vector de movimiento
+            Vector3 movement = new Vector3(horizontalInput, 0.0f, verticalInput) * currentSpeed * Time.deltaTime;
+
+            // Mover al jugador en la dirección del vector de movimiento
+            transform.Translate(movement);
+
+            // Rotar al jugador basado en la entrada de rotación
+            float rotationAmount = horizontalInput * rotationSpeed * Time.deltaTime;
+            transform.Rotate(Vector3.up, rotationAmount);
+        }
     }
 }
