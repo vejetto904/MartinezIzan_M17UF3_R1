@@ -9,9 +9,33 @@ public class CinemachineTransition : MonoBehaviour
     private CinemachineVirtualCamera virtualCamera;
     private float originalFOV;
 
-
     private bool isTransitioning = false;
-    private float transitionStartTime;
+    private float transitionStartTime = 0.0f;
+    private bool isAiming = false;
+
+    public void Awake()
+    {
+        InputController.Instance ??= FindObjectOfType<InputController>();
+        InputController.Aim += OnAimChange;
+    }
+
+    private void OnDestroy()
+    {
+        InputController.Aim -= OnAimChange;
+    }
+
+    private void OnAimChange()
+    {
+        isAiming = !isAiming; // Invertir el estado de isAiming
+        if (isAiming)
+        {
+            StartTransition();
+        }
+        else
+        {
+            ResetTransition();
+        }
+    }
 
     void Start()
     {
@@ -21,15 +45,6 @@ public class CinemachineTransition : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            StartTransition();
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            ResetTransition();
-        }
-
         if (isTransitioning)
         {
             float progress = (Time.time - transitionStartTime) / transitionDuration;
@@ -55,11 +70,7 @@ public class CinemachineTransition : MonoBehaviour
 
     void ResetTransition()
     {
-        if (isTransitioning)
-        {
-            isTransitioning = false;
-        }
-
+        isTransitioning = false;
         virtualCamera.m_Lens.FieldOfView = originalFOV;
     }
 }

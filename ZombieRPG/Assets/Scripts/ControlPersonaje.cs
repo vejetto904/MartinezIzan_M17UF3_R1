@@ -37,19 +37,29 @@ public class ThirdPersonController : MonoBehaviour
         isRunning = true;
     }
 
-    private void StopRunning()
-    {
-        isRunning = false;
-    }
-
+    //private void StopRunning()
+    //{
+    //    isRunning = false;
+    //}
     private void Jump()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            // Verificar si el jugador está caminando o corriendo
+            if (isWalking || isRunning)
+            {
+                // Verificar si la velocidad en el eje Y es cercana a cero
+                if (Mathf.Abs(rb.velocity.y) < 0.01f)
+                {
+                    // Aplicar la fuerza de salto solo si la velocidad en Y es baja
+                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                }
+            }
         }
     }
+
+
 
     private void Update()
     {
