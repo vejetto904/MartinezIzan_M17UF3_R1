@@ -13,6 +13,7 @@ public class InputController : MonoBehaviour
     public static Action Jump = delegate { };
     public static Action Crouch = delegate { };
     public static Action Aim = delegate { };
+    public static Action CamChange = delegate { };
 
     public Vector2 movimientoActual;
 
@@ -40,6 +41,10 @@ public class InputController : MonoBehaviour
         _inputs.Controles.Crouch.performed += ctx =>
         {
             Crouch.Invoke();
+        };
+        _inputs.Controles.CamChange.performed += ctx =>
+        {
+            CamChange.Invoke();
         };
     }
 

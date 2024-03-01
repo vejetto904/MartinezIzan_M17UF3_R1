@@ -73,6 +73,15 @@ namespace GameInputs
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CamChange"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f1bd6a0-7470-461c-bf98-4e927c2bfb5e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -174,6 +183,17 @@ namespace GameInputs
                     ""action"": ""CamAim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f869b10-19f2-4dab-bc42-dcb72dbb2927"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CamChange"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -187,6 +207,7 @@ namespace GameInputs
             m_Controles_Jump = m_Controles.FindAction("Jump", throwIfNotFound: true);
             m_Controles_Crouch = m_Controles.FindAction("Crouch", throwIfNotFound: true);
             m_Controles_CamAim = m_Controles.FindAction("CamAim", throwIfNotFound: true);
+            m_Controles_CamChange = m_Controles.FindAction("CamChange", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -253,6 +274,7 @@ namespace GameInputs
         private readonly InputAction m_Controles_Jump;
         private readonly InputAction m_Controles_Crouch;
         private readonly InputAction m_Controles_CamAim;
+        private readonly InputAction m_Controles_CamChange;
         public struct ControlesActions
         {
             private @Inputs m_Wrapper;
@@ -262,6 +284,7 @@ namespace GameInputs
             public InputAction @Jump => m_Wrapper.m_Controles_Jump;
             public InputAction @Crouch => m_Wrapper.m_Controles_Crouch;
             public InputAction @CamAim => m_Wrapper.m_Controles_CamAim;
+            public InputAction @CamChange => m_Wrapper.m_Controles_CamChange;
             public InputActionMap Get() { return m_Wrapper.m_Controles; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -286,6 +309,9 @@ namespace GameInputs
                 @CamAim.started += instance.OnCamAim;
                 @CamAim.performed += instance.OnCamAim;
                 @CamAim.canceled += instance.OnCamAim;
+                @CamChange.started += instance.OnCamChange;
+                @CamChange.performed += instance.OnCamChange;
+                @CamChange.canceled += instance.OnCamChange;
             }
 
             private void UnregisterCallbacks(IControlesActions instance)
@@ -305,6 +331,9 @@ namespace GameInputs
                 @CamAim.started -= instance.OnCamAim;
                 @CamAim.performed -= instance.OnCamAim;
                 @CamAim.canceled -= instance.OnCamAim;
+                @CamChange.started -= instance.OnCamChange;
+                @CamChange.performed -= instance.OnCamChange;
+                @CamChange.canceled -= instance.OnCamChange;
             }
 
             public void RemoveCallbacks(IControlesActions instance)
@@ -329,6 +358,7 @@ namespace GameInputs
             void OnJump(InputAction.CallbackContext context);
             void OnCrouch(InputAction.CallbackContext context);
             void OnCamAim(InputAction.CallbackContext context);
+            void OnCamChange(InputAction.CallbackContext context);
         }
     }
 }
