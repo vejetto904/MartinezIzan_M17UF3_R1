@@ -1,9 +1,11 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
     public Transform hand; // Referencia al transform de la mano del jugador
     public Animator animator;
+    public Inventory inventory; // Referencia al script del inventario
 
     private Vector3 originalScale; // Almacena la escala original del objeto
 
@@ -49,5 +51,8 @@ public class PlayerController : MonoBehaviour
 
         // Elimina los scripts del objeto recolectado
         Destroy(obj.GetComponent<FloatingObject>());
+
+        // Agrega el objeto recolectado al inventario
+        inventory.Add(obj.GetComponent<Item>());
     }
 }
