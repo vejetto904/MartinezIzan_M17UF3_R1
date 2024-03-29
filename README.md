@@ -29,8 +29,9 @@ Este documento describe los controles utilizados para manejar al personaje en el
 
 -No me a dado tiempo a conel click izquierdo hacer que recoja objeros con el NewInputSystem pero esta pendiente.
 -No todos los arboles tieen colision solo unos cuantos.
--La animacion final de baile no para de bailar aposta, es como pasarte el juego xD
--Falta hacer que dispare pero no como no es un requerimiento no me he centrado en eso
+-La animacion final de baile no para de bailar aposta, es como pasarte el juego xD.
+-Falta hacer que dispare pero no como no es un requerimiento no me he centrado en eso.
+-Lo de guardar partida no lo he conseguido pero lo e intentado.
 
 ## Interactuando con los Controles
 
