@@ -28,6 +28,7 @@ Este documento describe los controles utilizados para manejar al personaje en el
 - **Inventario/Inventario de Objetos:** Abre o cierra el inventario del personaje o accede a un inventario de objetos. Pulsa el botón asignado para abrir/cerrar el inventario. I
 
 -No me a dado tiempo a conel click izquierdo hacer que recoja objeros con el NewInputSystem pero esta pendiente.
+-No todos los arboles tieen colision solo unos cuantos.
 
 ## Interactuando con los Controles
 
