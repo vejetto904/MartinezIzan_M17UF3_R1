@@ -1,0 +1,11 @@
+{
+    "world": {
+        "player":{
+            "PosX":"",
+            "PosY":"",
+            "PosZ":"",
+            "live": 500,
+            "inv":[]
+        }
+    }
+}
