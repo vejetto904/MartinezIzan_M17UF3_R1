@@ -4,9 +4,6 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using TreeEditor;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
