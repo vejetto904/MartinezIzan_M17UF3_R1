@@ -8,7 +8,17 @@ public class PlayerInputs : MonoBehaviour
     Camera cam;
     public Transform hand;
     public Animator animator;
+    public static PlayerInputs instance;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            instance = this;
+        }
+        else Destroy(this.gameObject);
+    }
     // Start is called before the first frame update
     void Start()
     {
