@@ -8,10 +8,12 @@ public class PlayerInputs : MonoBehaviour
     Camera cam;
     public Transform hand;
     public Animator animator;
+    public AudioSource song;
     public static PlayerInputs instance;
 
     private void Awake()
     {
+
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -51,6 +53,16 @@ public class PlayerInputs : MonoBehaviour
                     SetFocus(interact);
                 }
             }
+        }
+        Dance();
+    }
+    public void Dance()
+    {
+        song.Pause();
+        if (Inventory.instance.CountItems() == 3)
+        {
+            song.Play();
+            animator.SetBool("isDance", true);
         }
     }
 

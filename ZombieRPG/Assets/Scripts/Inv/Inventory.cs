@@ -6,10 +6,9 @@ using static UnityEditor.Progress;
 public class Inventory : MonoBehaviour
 {
     public static Inventory instance;
-
     public delegate void OnItemChanged();
     public OnItemChanged onItemChangedCallBack;
-    public int space = 6;
+    public int space = 3;
     public List<Item> items = new List<Item>();
     private void Awake()
     {
@@ -19,6 +18,12 @@ public class Inventory : MonoBehaviour
             instance = this;
         }
         else Destroy(gameObject);
+    }
+    public float CountItems()
+    {
+        float NItems;
+        NItems = items.Count;
+        return NItems;
     }
 
     public bool Add(Item item)
