@@ -10,6 +10,7 @@ public class PlayerInputs : MonoBehaviour
     public Animator animator;
     public AudioSource danceSong;
     public AudioSource song;
+    public AudioSource select;
     public static PlayerInputs instance;
 
     private void Awake()
@@ -84,6 +85,7 @@ public class PlayerInputs : MonoBehaviour
     //Método para equipar un objeto en la mano del jugador
     public void EquipItemInHand(Item newItem)
     {
+        select.Play();
         // Destruir el arma actualmente equipada en la mano, si existe
         if (hand.childCount > 0)
         {

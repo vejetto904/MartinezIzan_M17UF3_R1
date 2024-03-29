@@ -210,3 +210,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 6008696935841498960}
+  select: {fileID: 0}
